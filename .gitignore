@@ -1,0 +1,19 @@
+# Local virtual environment
+.venv/
+__pycache__/
+
+# Terraform files generated during execution
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+tfplan
+
+# Sensitive variable inputs (if you use them)
+*.tfvars
+
+# Startup Script for local setup
+lab_start.sh
+
+# Ignore Hosts for Ansible Playbook
+hosts.ini
