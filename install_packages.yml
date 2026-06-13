@@ -1,0 +1,33 @@
+- name: Install Packages
+  hosts: all
+  become: true
+
+  vars:
+    packages_to_install:
+      - nginx
+      - wget
+      - tree
+      - zip
+
+  tasks:
+    # 1. THE UBUNTU DEPLOYMENT BLOCK
+    - name: Install Packages on Ubuntu
+      ansible.builtin.apt:
+        name: "{{ packages_to_install }}"
+        state: present
+        update_cache: yes
+      when: ansible_facts["os_family"] == "Debian" # Targets Ubuntu/Debian family
+    
+    # 2. THE CENTOS DEPLOYMENT BLOCK
+    - name: Install Packages on CentOS (Optimized Speed)
+      ansible.builtin.dnf:
+        name: "{{ packages_to_install }}"
+        state: present
+      when: ansible_facts["os_family"] == "RedHat" # Targets CentOS/RHEL family
+
+    # 3. SERVICE ACTIVATION LAYER
+    - name: Ensure Nginx is started and enabled
+      ansible.builtin.service:
+        name: nginx
+        state: started   # This forces 'systemctl start nginx'
+        enabled: yes     # This forces 'systemctl enable nginx' so it survives boots

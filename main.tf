@@ -78,9 +78,9 @@ resource "google_compute_firewall" "allow_http" {
 # Ubuntu 22.04 LTS Instance
 resource "google_compute_instance" "ubuntu_vm" {
   name         = "web-ubuntu-2204"
-  machine_type = "e2-micro"
+  machine_type = "e2-medium"
   zone         = var.gcp_zone
-  tags         = ["http-server","web-server"]
+  tags         = ["web-server"]
 
   boot_disk {
     initialize_params {
@@ -109,16 +109,17 @@ resource "google_compute_instance" "ubuntu_vm" {
   depends_on = [google_project_service.compute_api]
 }
 
-# Red Hat Enterprise Linux (RHEL) Instance
-resource "google_compute_instance" "rhel_vm" {
-  name         = "web-rhel-9"
-  machine_type = "e2-micro"
+# CentOS Stream 9 Instance (Replacing RHEL)
+resource "google_compute_instance" "centos_vm" {
+  name         = "web-centos-9"
+  machine_type = "e2-medium"
   zone         = var.gcp_zone
-  tags         = ["http-server","web-server"]
+  tags         = ["web-server"] # Cleaned up by removing the dead weight "http-server" tag
 
   boot_disk {
     initialize_params {
-      image = "rhel-cloud/rhel-9"
+      # SWAP: Switches the image project to centos-cloud and targets Stream 9
+      image = "centos-cloud/centos-stream-9"
     }
   }
 
@@ -130,12 +131,10 @@ resource "google_compute_instance" "rhel_vm" {
   }
 
   metadata = {
-    # No more messy data block slicing. Natively uses the clean variable string.
     ssh-keys = "${var.gcp_username}:${file("~/.ssh/id_rsa.pub")}"
   }
 
   service_account {
-    # FIX: Hardcode "default" here as well
     email  = "default"
     scopes = ["cloud-platform"]
   }
@@ -151,7 +150,8 @@ output "ubuntu_public_ip" {
   description = "Public IP of the Ubuntu node"
 }
 
-output "rhel_public_ip" {
-  value       = google_compute_instance.rhel_vm.network_interface[0].access_config[0].nat_ip
-  description = "Public IP of the RHEL node"
+output "centos_public_ip" {
+  # FIX: Reference centos_vm instead of rhel_vm
+  value       = google_compute_instance.centos_vm.network_interface[0].access_config[0].nat_ip
+  description = "Public IP of the CentOS node"
 }
