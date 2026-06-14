@@ -19,4 +19,4 @@ lab_start.sh
 hosts.ini
 
 # Ignore the DS_STORE File
-.DS_STORE
+.DS_Store
