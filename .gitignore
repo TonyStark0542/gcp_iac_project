@@ -17,3 +17,6 @@ lab_start.sh
 
 # Ignore Hosts for Ansible Playbook
 hosts.ini
+
+# Ignore the DS_STORE File
+.DS_STORE
