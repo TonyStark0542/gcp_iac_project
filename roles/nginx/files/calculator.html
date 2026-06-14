@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="calstyle.css">
+    <title>Calculator</title>
+</head>
+<body>
+    <h1>Calculator</h1>
+    <div class="cal">
+        
+        <div class="container">
+            <input class="js-calculation css-calculation js-plus-minus js-percentage">
+        </div>
+        <p>
+            <button class="cal_but light_gray_col" onclick="
+                calculation = '';
+
+                displayCalculation();
+                
+                localStorage.setItem('calculationVal', calculation);
+            ">AC</button>
+            <button class="cal_but light_gray_col" onclick="plusOrminus()">+/-</button>
+            <button class="cal_but light_gray_col" onclick="percentage()">%</button>
+            <button class="cal_but yellow_col" onclick="updateCal('+')">+</button>
+        </p>
+        <p>
+            <button class="cal_but gray_col" onclick="updateCal('1')">1</button>
+            <button class="cal_but gray_col" onclick="updateCal('2')">2</button>
+            <button class="cal_but gray_col" onclick="updateCal('3')">3</button>
+            <button class="cal_but yellow_col" onclick="updateCal('-')">-</button>
+        </p>
+        <p>
+            <button class="cal_but gray_col" onclick="updateCal('4')">4</button>
+            <button class="cal_but gray_col" onclick="updateCal('5')">5</button>
+            <button class="cal_but gray_col" onclick="updateCal('6')">6</button>
+            <button class="cal_but yellow_col" onclick="updateCal('*')">x</button>
+        </p>
+        <p>
+            <button class="cal_but gray_col" onclick="updateCal('7')">7</button>
+            <button class="cal_but gray_col" onclick="updateCal('8')">8</button>
+            <button class="cal_but gray_col" onclick="updateCal('9')">9</button>
+            <button class="cal_but yellow_col" onclick="updateCal('/')">/</button>
+        </p>
+        <p>
+            <button class="zero_but gray_col" onclick="updateCal('0')">0</button>
+            <button class="cal_but gray_col" onclick="updateCal('.')">.</button>
+            <button class="cal_but yellow_col" onclick="
+            calculation = eval(calculation);
+
+            displayCalculation();
+
+            localStorage.setItem('calculationVal', calculation);
+            ">=</button>
+        </p>
+    </div>
+    
+    <script src="caljs.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for role/nginx
+- name: Install nginx on Ubuntu Server
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+  when: ansible_facts["os_family"] == "Debian"
+
+- name: Install Packages on CentOS Server
+  dnf:
+    name: nginx
+    state: present
+  when: ansible_facts["os_family"] == "RedHat"
+
+- name: Purge all default webserver files inside the directory
+  ansible.builtin.shell: "rm -rf {{ web_root }}/*"
+
+- name: Deploy all frontend assets at once (Optimized)
+  ansible.builtin.copy:
+    src: ./ 
+    dest: "{{ web_root }}/"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Nginx

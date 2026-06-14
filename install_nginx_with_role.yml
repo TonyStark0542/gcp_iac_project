@@ -1,0 +1,5 @@
+- name: Install Nginx on all Servers
+  hosts: all
+  become: true
+  roles:
+    - nginx

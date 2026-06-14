@@ -1,0 +1,9 @@
+#SPDX-License-Identifier: MIT-0
+---
+# handlers file for role/nginx
+- name: Restart Nginx
+  ansible.builtin.service:
+    name: nginx
+    state: started   # This forces 'systemctl start nginx'
+    enabled: yes     # This forces 'systemctl enable nginx' so it survives boots
+  become: true
